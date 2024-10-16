@@ -49,7 +49,8 @@ Availability: ${book._isAvailable}`);
 
     //5. Handle Books Borrowing and Returning
     calculateTotalBooksAvailable(){
-        
+        let booksAvailable = this.books.filter(book => book.isAvailable === true);
+        console.log(`There are ${booksAvailable.length} books available in the ${this.name} section`);
     }
 }
 
@@ -117,8 +118,11 @@ fantasy.addBook(fellowship);
 fantasy.addBook(towers);
 fantasy.addBook(king);
 //Add books to fantasy section
+
 sciFi.getAvailableBooks();
+//return the number books avaiable after borrowing / returning
 sciFi.listBooks();
+//list all the books in a given section
 
 const james = new Patron("James");
 const lily  = new Patron("Lily");
@@ -132,6 +136,11 @@ victor.borrowBook(fellowship);
 lily.borrowBook(towers);
 lily.borrowBook(king);
 victor.borrowBook(towers);
+//patrons borrowing books
 
 james.returnBook(dune);
 james.returnBook(dune);
+victor.returnBook(hobbit);
+//patron returning books
+
+fantasy.calculateTotalBooksAvailable();
