@@ -19,13 +19,11 @@ ISBN: ${this.ISBN}`);
     set isAvailable(status){
         if (typeof status === 'boolean'){
             this._isAvailable = status;
+        } else {
+            console.log(`Status can only be True or False`)
         }
     }
 }
-
-const book1 = new Book(`Dune`, `Frank Herbert`, `009988776655`);
-book1.getDetails();
-
 
 //2. Create a (Section) class
 
@@ -43,13 +41,97 @@ class Section{
     }
     listBooks(){
         this.books.forEach(book => {
-            console.log(`${book.title}, ${book._isAvailable}`);
+            console.log(
+                `Book Title: ${book.title}
+Availability: ${book._isAvailable}`);
         });
+    }
+
+    //5. Handle Books Borrowing and Returning
+    calculateTotalBooksAvailable(){
+        
     }
 }
 
+
+//3. Create a (Patron) Class
+
+class Patron{
+    constructor(name){
+        this.name = name;
+        this.borrowedBooks = [];
+    }
+    borrowBook(book){
+        if (book.isAvailable){
+            this.borrowedBooks.push(book);
+            book.isAvailable = false;
+        } else {
+            console.log("Book is still outgoing")
+        }
+    }
+    returnBook(book){
+        if (book.isAvailable === false){
+            book.isAvailable = true;
+            this.borrowedBooks = this.borrowedBooks.filter(bbooks => bbooks.isAvailable === false);
+        } else {
+            console.log("Book has already been returned");
+        }
+    }
+
+}
+
+//4. Create a (VIPPatron) Class that Inherits from (Patron)
+class VIPPatron extends Patron{
+    constructor(name){
+        super(name);
+        this.priority = true;
+    }
+    borrowBook(){
+
+    }
+}
+
+
+//6. Create and manage Sections with Patrons // Output
+
+const dune = new Book(`Dune`, `Frank Herbert`, `009988776655`);
+const fellowship = new Book('The Lord of the Rings: The Fellowship of the Ring', 'J.R.R. Tolkein', '0987654321');
+const towers = new Book('The Lord of the Rings: The Two Towers','J.R.R. Tolkein', '1357924680');
+const king = new Book('The Lord of the Rings: The Return of the King', 'J.R.R. Tolkein', '6789054321');
+const hobbit = new Book('The Hobbit', 'J.R.R. Tolkein', '9078563412');
+const starship = new Book('Starship Troopers', 'Robert A. Heinlein', '9078654321');
+const martian = new Book('The Martian', 'Andy Weir', '8079463512');
+//Create multiple Book instances
+dune.getDetails();
+
 const sciFi = new Section('Science Fiction');
-sciFi.addBook(book1);
-console.log(sciFi);
+const fantasy = new Section('Fantasy');
+//Create multiple Section instances
+
+sciFi.addBook(dune);
+sciFi.addBook(starship);
+sciFi.addBook(martian);
+//Add books to sciFi section
+fantasy.addBook(hobbit);
+fantasy.addBook(fellowship);
+fantasy.addBook(towers);
+fantasy.addBook(king);
+//Add books to fantasy section
 sciFi.getAvailableBooks();
 sciFi.listBooks();
+
+const james = new Patron("James");
+const lily  = new Patron("Lily");
+const victor = new Patron("Victor")
+//Create Patron instances
+
+james.borrowBook(dune);
+james.borrowBook(starship);
+victor.borrowBook(hobbit);
+victor.borrowBook(fellowship);
+lily.borrowBook(towers);
+lily.borrowBook(king);
+victor.borrowBook(towers);
+
+james.returnBook(dune);
+james.returnBook(dune);
