@@ -87,11 +87,15 @@ class VIPPatron extends Patron{
         super(name);
         this.priority = true;
     }
-    borrowBook(){
-
+    borrowBook(book){
+        if (book.isAvailable) {
+            super.borrowBook(book)
+        }
+        else {
+            console.log(`Book is not available, however VIP Patrons have priority`)
+        }
     }
 }
-
 
 //6. Create and manage Sections with Patrons // Output
 
@@ -126,8 +130,11 @@ sciFi.listBooks();
 
 const james = new Patron("James");
 const lily  = new Patron("Lily");
-const victor = new Patron("Victor")
+const victor = new Patron("Victor");
 //Create Patron instances
+
+const koby = new VIPPatron("Koby");
+//Create VIPPatron instance
 
 james.borrowBook(dune);
 james.borrowBook(starship);
@@ -136,6 +143,8 @@ victor.borrowBook(fellowship);
 lily.borrowBook(towers);
 lily.borrowBook(king);
 victor.borrowBook(towers);
+koby.borrowBook(towers);
+koby.borrowBook(martian);
 //patrons borrowing books
 
 james.returnBook(dune);
@@ -144,3 +153,4 @@ victor.returnBook(hobbit);
 //patron returning books
 
 fantasy.calculateTotalBooksAvailable();
+
